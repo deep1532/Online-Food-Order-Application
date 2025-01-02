@@ -51,8 +51,6 @@ public class AuthController {
 
         User isEmailExist = userRepository.findByEmail(user.getEmail());
 
-        System.out.println(isEmailExist + "--->email");
-
         if(isEmailExist != null){
             throw new Exception("Email is already in use");
         }
@@ -89,8 +87,6 @@ public class AuthController {
         String username = request.getEmail();
         String password = request.getPassword();
 
-        System.out.println(username + "--->Login username");
-
         Authentication authentication = authenticate(username, password);
 
         Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
@@ -111,14 +107,11 @@ public class AuthController {
 
         UserDetails userDetails = customUserDetailsService.loadUserByUsername(username);
 
-        System.out.println(userDetails + "--->Userdetails");
-
         if(userDetails == null){
             throw new BadCredentialsException("Invalid username...");
         }
 
         if(!passwordEncoder.matches(password, userDetails.getPassword())){
-            System.out.println("Password doesn't match");
             throw new BadCredentialsException("Invalid password...");
         }
 
